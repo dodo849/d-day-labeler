@@ -10,7 +10,7 @@ import {initialize} from "./initialize";
 import type {TPRListData} from "./types";
 
 const D_N_PATTERN = /^D-(\d+)$/;
-const DUE_DATE_PATTERN = /\(~(\d{1,2})\/(\d{1,2})\)$/;
+const DUE_DATE_PATTERN = /\(~(\d{1,2})\/(\d{1,2})\)/;
 
 interface ILabelChange {
     number: number;
@@ -44,7 +44,7 @@ const calculateDday = (dueDate: Date): number => {
 };
 
 const updateLabel = async ({number, current, next}: ILabelChange): Promise<boolean> => {
-    // 현재 라벨이 없고 塞로운 라벨만 있는 경우
+    // 현재 라벨이 없고 새로운 라벨만 있는 경우
     if (!current && next) {
         return addLabels(number, [next])
             .then(() => {
@@ -84,8 +84,9 @@ const extractLabelChanges = (prList: TPRListData): ILabelChange[] => {
     return prList
         .map(({number, labels, title}) => {
             const dueDate = extractDueDate(title);
-            if (!dueDate) return null;
+            core.info(`Find dueDate ${dueDate}`);
 
+            if (!dueDate) return null;
             const dDay = calculateDday(dueDate);
             const currentLabel = labels.find(({name}) => D_N_PATTERN.test(name))?.name;
 
