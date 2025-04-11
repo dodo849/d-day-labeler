@@ -81,7 +81,8 @@ const updateLabels = async (changes: ILabelChange[]): Promise<boolean[]> => {
 };
 
 const extractLabelChanges = (prList: TPRListData): ILabelChange[] => {
-    core.info(`prList ${prList}`);
+    core.info(`prList.length = ${prList.length}`);
+    core.info(`prList = ${JSON.stringify(prList, null, 2)}`);
 
     return prList
         .map(({number, labels, title}) => {
