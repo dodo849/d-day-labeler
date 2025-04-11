@@ -81,6 +81,8 @@ const updateLabels = async (changes: ILabelChange[]): Promise<boolean[]> => {
 };
 
 const extractLabelChanges = (prList: TPRListData): ILabelChange[] => {
+    core.info(`prList ${prList}`);
+
     return prList
         .map(({number, labels, title}) => {
             const dueDate = extractDueDate(title);
