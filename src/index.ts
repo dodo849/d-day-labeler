@@ -25,9 +25,13 @@ const extractDueDate = (title: string): Date | undefined => {
     const [, month, day] = match;
     const currentYear = new Date().getFullYear();
     const dueDate = new Date(currentYear, parseInt(month) - 1, parseInt(day));
+    dueDate.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
     // 현재 연도의 날짜가 지났다면 다음 연도로 설정
-    if (dueDate < new Date()) {
+    if (dueDate < today) {
         dueDate.setFullYear(currentYear + 1);
     }
 
